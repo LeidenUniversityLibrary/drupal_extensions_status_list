@@ -45,8 +45,7 @@ function drupal_extensions_status_list_drush_command() {
  * Implements drush_hook_COMMAND().
  */
 function drush_drupal_extensions_status_list() {
-  $format = drush_get_option('format', "[modulename];[package];[type];[version];[dirname];[gitversion];[gitbranch];[gitstatus]\n");
-  //$pmlist = drush_invoke_process('@self', 'pm-list', array('--quiet'));
+  $format = drush_get_option('format', "[modulename];[package];[type];[version];[dirname];[gitcommit];[gitbranch];[gitstatus]\n");
   $pmlist = system_rebuild_module_data();
 
   drush_shell_exec("drush drupal-directory");
@@ -93,11 +92,11 @@ function drush_drupal_extensions_status_list() {
             $hash = $hash . ' (' . implode(',', $output) . ')';
           }
         }
-        $desl['[gitversion]'] = $hash; 
+        $desl['[gitcommit]'] = $hash; 
       }
     }
     else {
-      $desl['[gitversion]'] = 'no git';
+      $desl['[gitcommit]'] = 'no git';
       $desl['[gitbranch]'] = 'no git';
       $desl['[gitstatus]'] = 'no git';
     }
@@ -106,7 +105,7 @@ function drush_drupal_extensions_status_list() {
     $result[$desl['[modulename]']] = $line;
   }
   
-  ksort($result);
+  uksort($result, "strcasecmp");
   foreach ($result as $line) {
     print($line);
   }
