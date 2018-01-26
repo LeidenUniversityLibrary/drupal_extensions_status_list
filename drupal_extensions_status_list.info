@@ -1,0 +1,5 @@
+name = Drupal extensions status list
+description = List all Drupal extensions on the system (like drush pm-list) but adds git info
+package = UBL
+version = "7.x-1.x-dev"
+core = "7.x"
