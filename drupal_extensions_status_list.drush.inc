@@ -4,7 +4,7 @@
  * drupal_extensions_status_list
  *
  *
- *  Copyright 2017 Leiden University Library
+ *  Copyright 2018 Leiden University Library
  *
  *  This file is part of drupal_extensions_status_list.
  *
