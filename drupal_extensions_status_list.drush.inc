@@ -46,7 +46,8 @@ function drupal_extensions_status_list_drush_command() {
  */
 function drush_drupal_extensions_status_list() {
   $format = drush_get_option('format', "[modulename];[package];[type];[version];[dirname];[gitversion];[gitbranch];[gitstatus]\n");
-  $pmlist = drush_invoke_process('@self', 'pm-list', array('--quiet'));
+  //$pmlist = drush_invoke_process('@self', 'pm-list', array('--quiet'));
+  $pmlist = system_rebuild_module_data();
 
   drush_shell_exec("drush drupal-directory");
   $drupaldirs = drush_shell_exec_output();
@@ -54,19 +55,18 @@ function drush_drupal_extensions_status_list() {
    
   $result = array();
 
-  foreach ($pmlist['object'] as $extname => $extinfo) {
+  foreach ($pmlist as $extname => $extinfo) {
     $desl = array(
-      '[modulename]' => $extinfo['name'],
-      '[filename]' => $extinfo['filename'],
-      '[dirname]' => dirname($extinfo['filename']),
-      '[name]' => $extinfo['info']['name'],
-      '[description]' => $extinfo['info']['description'],
-      '[package]' => $extinfo['info']['package'],
-      '[core]' => $extinfo['info']['core'],
-      '[version]' => $extinfo['info']['version'],
-      '[project]' => $extinfo['info']['project'],
-      '[type]' => $extinfo['type'],
-      '[label]' => $extinfo['label'],
+      '[modulename]' => $extname,
+      '[filename]' => $extinfo->filename,
+      '[dirname]' => dirname($extinfo->filename),
+      '[name]' => $extinfo->info->name,
+      '[description]' => $extinfo->info->description,
+      '[package]' => $extinfo->info->package,
+      '[core]' => $extinfo->info->core,
+      '[version]' => $extinfo->info->version,
+      '[project]' => $extinfo->info->project,
+      '[type]' => $extinfo->type,
     );
 
     $directory = $drupaldir . '/' . $desl['[dirname]'];
