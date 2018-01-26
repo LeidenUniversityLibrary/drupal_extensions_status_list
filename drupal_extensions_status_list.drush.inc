@@ -45,7 +45,7 @@ function drupal_extensions_status_list_drush_command() {
  * Implements drush_hook_COMMAND().
  */
 function drush_drupal_extensions_status_list() {
-  $format = drush_get_option('format', "[modulename];[package];[type];[version];[dirname];[gitcommit];[gitbranch];[gitstatus]\n");
+  $format = drush_get_option('format', "[modulename];[package];[type];[version];[status];[dirname];[gitcommit];[gitbranch];[gitstatus]\n");
   $pmlist = system_rebuild_module_data();
 
   drush_shell_exec("drush drupal-directory");
@@ -66,6 +66,7 @@ function drush_drupal_extensions_status_list() {
       '[version]' => $extinfo->info->version,
       '[project]' => $extinfo->info->project,
       '[type]' => $extinfo->type,
+      '[status]' => ($extinfo->status?'enabled':'disabled'),
     );
 
     $directory = $drupaldir . '/' . $desl['[dirname]'];
