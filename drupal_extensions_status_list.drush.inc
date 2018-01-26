@@ -55,19 +55,21 @@ function drush_drupal_extensions_status_list() {
   $result = array();
 
   foreach ($pmlist as $extname => $extinfo) {
+drush_print_r($extinfo);
     $desl = array(
       '[modulename]' => $extname,
       '[filename]' => $extinfo->filename,
       '[dirname]' => dirname($extinfo->filename),
-      '[name]' => $extinfo->info->name,
-      '[description]' => $extinfo->info->description,
-      '[package]' => $extinfo->info->package,
-      '[core]' => $extinfo->info->core,
-      '[version]' => $extinfo->info->version,
-      '[project]' => $extinfo->info->project,
+      '[name]' => $extinfo->info['name'],
+      '[description]' => $extinfo->info['description'],
+      '[package]' => $extinfo->info['package'],
+      '[core]' => $extinfo->info['core'],
+      '[version]' => $extinfo->info['version'],
+      '[project]' => $extinfo->info['project'],
       '[type]' => $extinfo->type,
       '[status]' => ($extinfo->status?'enabled':'disabled'),
     );
+drush_print_r($desl);
 
     $directory = $drupaldir . '/' . $desl['[dirname]'];
 
